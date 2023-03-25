@@ -5,7 +5,8 @@ class JenkinsAPI:
     def __init__(self):
         configfile = r'config.yaml'
         with open(configfile) as file:
-            config = yaml.load(file, Loader=yaml.FullLoader)
+            # config = yaml.safe_load(c)
+            config = yaml.load(c, Loader=yaml.FullLoader)
 
         jenkins_config = config['jenkins']
         self.username = jenkins_config['user']
