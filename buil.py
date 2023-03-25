@@ -20,9 +20,10 @@ class JenkinsAPI:
         params = {'token': self.build_token}
         response = requests.post(url, auth=auth, params=params)
         if response.status_code == 201:
-            print(f"[INFO] Successfully triggered {self.job_name}")
+            print(f"[INFO] : Successfully triggered {self.job_name}")
         else:
-            print(f"Failed to trigger build for job {self.job_name}. Response status code: {response.status_code}")
+            print(f"[ERROR] : Failed to trigger build for job {self.job_name}")
+            print(f"[FAIL] Response status code: {response.status_code}")
 
 if __name__ == '__main__':
     api = JenkinsAPI()
