@@ -1,33 +1,26 @@
-import yaml
 import requests
+from configloader import ConfigLoader
+
 
 class JenkinsAPI:
-    def __init__(self):
-        configfile = r'config.yaml'
-        with open(configfile) as c:
-            # config = yaml.safe_load(c)
-            config = yaml.load(c, Loader=yaml.FullLoader)
-
-        jenkinsconfigs = config['jenkins']
-        self.username = jenkinsconfigs['user']
-        self.api_token = jenkinsconfigs['apitoken']
-        self.jenkins_url = jenkinsconfigs['server']
-        self.job_name = jenkinsconfigs['job']
-        self.build_token = jenkinsconfigs['buildtoken']
+    def __init__(self, configfile):
+        self.config_loader = ConfigLoader(configfile)
+        self.config = self.config_loader.load_config()
 
     def build_job(self):
-        url = f"{self.jenkins_url}/job/{self.job_name}/build"
-        auth = (self.username, self.api_token)
-        params = {'token': self.build_token}
+        url = f"{self.config['jenkins_url']}/job/{self.config['folder_name']}/job/{self.config['job_name']}/build"
+        auth = (self.config['username'], self.config['api_token'])
+        params = {'token': self.config['build_token']}
 
         resp = requests.post(url, auth=auth, params=params)
 
         if resp.status_code == 201:
-            print(f"[INFO] : Successfully triggered {self.job_name}")
+            print(f"[INFO] : Successfully triggered {self.config['job_name']}")
         else:
-            print(f"[ERROR] : Failed to trigger build for job {self.job_name}")
+            print(f"[ERROR] : Failed to trigger build for job {self.config['job_name']}")
             print(f"[FAIL] resp status code: {resp.status_code}")
 
+
 if __name__ == '__main__':
-    api = JenkinsAPI()
+    api = JenkinsAPI('config.yaml')
     api.build_job()
