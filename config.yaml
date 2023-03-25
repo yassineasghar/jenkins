@@ -1,0 +1,6 @@
+jenkins:
+  user: "user"
+  apitoken: "apitoken" 
+  server: "server"
+  job: "jobname"
+  buildtoken: "build token name"  
