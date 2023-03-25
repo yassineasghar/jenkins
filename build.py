@@ -8,6 +8,8 @@ class JenkinsAPI:
         self.config = self.config_loader.load_config()
 
     def build_job(self):
+        # -- choose only one url : the first url is correct only if the job is not located on a folder -- #
+        # -- url = f"{self.config['jenkins_url']}/job/{self.config['job_name']}/build" -- #
         url = f"{self.config['jenkins_url']}/job/{self.config['folder_name']}/job/{self.config['job_name']}/build"
         auth = (self.config['username'], self.config['api_token'])
         params = {'token': self.config['build_token']}
